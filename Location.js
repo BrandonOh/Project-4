@@ -5,105 +5,143 @@ var room3_Points = 0
 var room4_Points = 0
 var room5_Points = 0
 var room6_Points = 0
+var room7_Points = 0
+var pain = 0
 var totalPoints = 0
+var metalDoorOpen = 0
 
 function myNorthFunction(){
 	var targetPointTextArea = document.getElementById("pointScreen");
-	if(roomLoc === 0){
+	if(roomLoc === 0 && pain <= 4){
 		roomLoc = 1
 		enable(false,false,false,false)
 		storyProgression()
+		painMeter()
 		if(room1_Points === 0){
 			totalPoints += 5
 			room1_Points = 1
 			targetPointTextArea.value = "total points: " + totalPoints
 		}
-	}else if(roomLoc === 1){
+	}else if(roomLoc === 1 && pain <= 4){
 		roomLoc = 3
 		enable(true,false,true,false)
 		storyProgression()
+		painMeter()
 		if(room3_Points === 0){
 			totalPoints += 5
 			room3_Points = 1
 			targetPointTextArea.value = "total points: " + totalPoints
 		}
+	}else if(pain === 5){
+		painMeter()
 	}else{
 		wrongWay()
 	}
 }
 function mySouthFunction() {
-	if(roomLoc === 3){
+	if(roomLoc === 3 && pain <= 4){
 		roomLoc = 1
 		enable(false,false,false,false)
 		storyProgression()
-	}else if(roomLoc === 1){
+		painMeter()
+	}else if(roomLoc === 1 && pain <= 4){
 		roomLoc = 0
 		enable(false,true,true,false)
 		storyProgression()
+		painMeter()
+	}else if(pain === 5){
+		painMeter()	
 	}else{
 		wrongWay()
 	}
 }
 function myEastFunction(){
 	var targetPointTextArea = document.getElementById("pointScreen");
-	if(roomLoc === 1){
+	if(roomLoc === 1 && pain <= 4){
 		roomLoc = 2
-		enable(true,true,true,false)
+		enable(true,true,false,false)
 		storyProgression()
+		painMeter()
 		if(room2_Points === 0){
 			totalPoints += 5
 			room2_Points = 1
 			targetPointTextArea.value = "total points: " + totalPoints
 		}
-	}else if(roomLoc === 5){
+	}else if(roomLoc === 5 && pain <= 4){
 		roomLoc = 0
 		enable(false,true,true,false)
 		storyProgression()
-	}else if(roomLoc === 6){
+		painMeter()
+	}else if(roomLoc === 2 && pain <= 4){
+		if (metalDoorOpen === 0){
+		msg = "you cannot enter the room. The door is sealed shut."
+		}else if(metalDoorOpen === 1){
+		roomLoc = 7
+		enable(false,true,true,false)
+		storyProgression()
+		painMeter()
+			if(room7_Points === 0){
+			totalPoints += 5
+			room7_Points = 1
+			targetPointTextArea.value = "total points: " + totalPoints		
+			}
+		}
+		textMessage(msg)
+	}else if(roomLoc === 6 && pain <= 4){
 		roomLoc = 3
 		enable(true,false,true,false)
 		storyProgression()
-	}else if(roomLoc === 4){
+		painMeter()
+	}else if(roomLoc === 4 && pain <= 4){
 		roomLoc = 1
 		enable(false,false,false,false)
 		storyProgression()
+		painMeter()
+	}else if(pain === 5){
+		painMeter()
 	}else{
 		wrongWay()
 	}
 }
 function myWestFunction(){
 	var targetPointTextArea = document.getElementById("pointScreen");
-	if(roomLoc === 1){
+	if(roomLoc === 1 && pain <= 4){
 		roomLoc = 4
 		enable(true,true,false,true)
 		storyProgression()
+		painMeter()
 		if(room4_Points === 0){
 			totalPoints += 5
 			room4_Points = 1
 			targetPointTextArea.value = "total points: " + totalPoints
 		}
-	}else if(roomLoc === 0){
+	}else if(roomLoc === 0 && pain <= 4){
 		roomLoc = 5
 		enable(true,true,false,true)
 		storyProgression()
+		painMeter()
 		if(room5_Points === 0){
 			totalPoints += 5
 			room5_Points = 1
 			targetPointTextArea.value = "total points: " + totalPoints
 		}
-	}else if(roomLoc === 3){
+	}else if(roomLoc === 3 && pain <= 4){
 		roomLoc = 6
 		enable(true,true,false,true)
 		storyProgression()
+		painMeter()
 		if(room6_Points === 0){
 			totalPoints += 5
 			room6_Points = 1
 			targetPointTextArea.value = "total points: " + totalPoints
 		}
-	}else if(roomLoc === 2){
+	}else if(roomLoc === 2 && pain <= 4){
 		roomLoc = 1
 		enable(false,false,false,false)
 		storyProgression()
+		painMeter()
+	}else if(pain === 5){
+		painMeter()
 	}else{
 		wrongWay()
 	}
@@ -116,54 +154,16 @@ function enable(N,S,E,W) {
 	document.getElementById("myWestBtn").disabled = W
 }
 
-function storyProgression(){
-	var targetMainTextArea = document.getElementById("taMain");
-	var desc = " "
-	switch(roomLoc) {
-		case 0: desc = "South: Your re-enter the room you were dazed and confused in, only to find nothing interesting.\n\n";
-			break;
-		case 1: desc = "Center: You enter a room with four doors going in different directions.\n\n";
-			break; 
-		case 2: desc = "East: You enter the room to the east to find a metal door.\n\n";
-			break;
-		case 3: desc = "North: You go through the door to find a room full of computers.\n\n";
-			break;
-		case 4: desc = "West: You enter the room to the west to find a lounge empty of all life.\n\n";
-			break;
-		case 5: desc = "SouthWest: You find a medical room full of cabinets and surgery tools.\n\n";
-			break;
-		case 6: desc = "NorthWest: You find an elevator that seems to go to the surface.\n\n";
-			break;
-		default: desc = "Default: How did you get her WTF.\n\n";
-	}
-	targetMainTextArea.value = desc + targetMainTextArea.value
-}
-
-function help(){
-var targetMainTextArea = document.getElementById("taMain");
-targetMainTextArea.value = "commands that are valid are:\n\nTo go South = S, s, South, south\n\nTo go North = N, n, North, north\n\nTo go East = E,e,East,east\n\nTo go West = W,w,West,west"
-
-}
-
-function btnGo_click(){
-	var targetMainTextArea = document.getElementById("taMain");
-	var input = document.getElementById("txtCommand").value;
-	if (input === "n" || input === "N" || input === "north" || input === "North"){
-		myNorthFunction()
-	}else if (input === "s" || input === "S" || input === "south" || input === "South"){
-		mySouthFunction()
-	}else if (input === "e" || input === "E" || input === "east" || input === "East"){
-		myEastFunction()
-	}else if (input === "w" || input === "W" || input === "west" || input === "West"){
-		myWestFunction()
-	}else if (input === "help" || input === "Help"){
-		help()
-	}else{
-		targetMainTextArea.value = "I do not understand that action " + input + ". Please type Help for possible actions. \n\n" + targetMainTextArea.value
-	}
+function painMeter(){
+	var msg = "your body hurts to much to take that action.";
+	if (pain <= 4){
+		pain = 1 + pain
+	}else if (pain === 5){
+	 	textMessage(msg)
+	} 
 }
 
 function wrongWay(){
-	var targetMainTextArea = document.getElementById("taMain");
-	targetMainTextArea.value = "There is no door that way.\n\n" + targetMainTextArea.value
+	var msg = "There is no door that way."
+	textMessage(msg)
 }
