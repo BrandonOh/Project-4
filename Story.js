@@ -1,3 +1,8 @@
+function init(){
+	msg= "You awake dazed and confused, you look around to see that you are laying on a pile of glass infront a huge shattered glass tube. You feel pain as you see parts of glass in you body. Though the pain is bad you find the strength to get up and search for a way out."
+	textMessage(msg)
+}
+
 function storyProgression(){
 	switch(roomLoc) {
 		case 0: starting_Room();
@@ -15,6 +20,11 @@ function storyProgression(){
 		case 6: elevator_Room();
 			break;
 		case 7: cage_Room();
+			break;
+		case 8: managers_Room();
+			break;
+		case 9: stairsDown();
+			break;
 		default: desc = "Default: How did you get her WTF.";
 	}
 }
@@ -30,7 +40,7 @@ function center_Room(){
 }
 
 function metaldoor_Room(){
-	var msg = "East: You enter the room to the east to find a metal door."
+	var msg = "East: You enter the room to find a metal door to the east and normal doors to the south and west."
 	textMessage(msg)
 }
 
@@ -55,12 +65,27 @@ function elevator_Room(){
 }
 
 function cage_Room(){
-	var msg = "FarEast: You enter the metal door to find a pitch dark room unable to see anything."
+	var msg = ""
+	if (flashlight === 0){
+		msg = "FarEast: You enter the metal door to find a pitch dark room unable to see anything."
+	}else if(flashlight === 1){
+		msg = "FarEast: You use he flashlight in your inventory to light the room. Disgusted you find dismembered bodies scattered around the room with a single open cage in the corner."
+	}
 	textMessage(msg)
 }
 
+function managers_Room(){
+	var msg = "SouthOfEast: You enter what seems to be the managers room nothing seems out of place."
+	textMessage(msg)
+}
+
+function stairsDown(){
+	var msg = "NorthEast: You find stairs, but to your despair they descend."
+	textMessage(msg)
+}
 
 function textMessage(msg){
 	var targetMainTextArea = document.getElementById("taMain");
 	targetMainTextArea.value = msg + "\n\n" + targetMainTextArea.value
+	msg = ""
 }

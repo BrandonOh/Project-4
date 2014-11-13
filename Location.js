@@ -6,6 +6,8 @@ var room4_Points = 0
 var room5_Points = 0
 var room6_Points = 0
 var room7_Points = 0
+var room8_Points = 0
+var room9_Points = 0
 var pain = 0
 var totalPoints = 0
 var metalDoorOpen = 0
@@ -24,7 +26,7 @@ function myNorthFunction(){
 		}
 	}else if(roomLoc === 1 && pain <= 4){
 		roomLoc = 3
-		enable(true,false,true,false)
+		enable(true,false,false,false)
 		storyProgression()
 		painMeter()
 		if(room3_Points === 0){
@@ -32,6 +34,11 @@ function myNorthFunction(){
 			room3_Points = 1
 			targetPointTextArea.value = "total points: " + totalPoints
 		}
+	}else if(roomLoc === 8 && pain <= 4){
+		roomLoc = 2
+		enable(true,false,false,false)
+		storyProgression()
+		painMeter()
 	}else if(pain === 5){
 		painMeter()
 	}else{
@@ -39,6 +46,7 @@ function myNorthFunction(){
 	}
 }
 function mySouthFunction() {
+	var targetPointTextArea = document.getElementById("pointScreen");
 	if(roomLoc === 3 && pain <= 4){
 		roomLoc = 1
 		enable(false,false,false,false)
@@ -49,6 +57,16 @@ function mySouthFunction() {
 		enable(false,true,true,false)
 		storyProgression()
 		painMeter()
+	}else if(roomLoc === 2 && pain <= 4){
+		roomLoc = 8
+		enable(false,true,true,true)
+		storyProgression()
+		painMeter()
+		if(room8_Points === 0){
+			totalPoints += 5
+			room8_Points = 1
+			targetPointTextArea.value = "total points: " + totalPoints
+		}
 	}else if(pain === 5){
 		painMeter()	
 	}else{
@@ -59,7 +77,7 @@ function myEastFunction(){
 	var targetPointTextArea = document.getElementById("pointScreen");
 	if(roomLoc === 1 && pain <= 4){
 		roomLoc = 2
-		enable(true,true,false,false)
+		enable(true,false,false,false)
 		storyProgression()
 		painMeter()
 		if(room2_Points === 0){
@@ -75,21 +93,31 @@ function myEastFunction(){
 	}else if(roomLoc === 2 && pain <= 4){
 		if (metalDoorOpen === 0){
 		msg = "you cannot enter the room. The door is sealed shut."
+		textMessage(msg)
 		}else if(metalDoorOpen === 1){
-		roomLoc = 7
-		enable(false,true,true,false)
-		storyProgression()
-		painMeter()
+			roomLoc = 7
+			enable(true,true,true,false)
+			storyProgression()
+			painMeter()
 			if(room7_Points === 0){
-			totalPoints += 5
-			room7_Points = 1
-			targetPointTextArea.value = "total points: " + totalPoints		
+				totalPoints += 5
+				room7_Points = 1
+				targetPointTextArea.value = "total points: " + totalPoints		
 			}
 		}
-		textMessage(msg)
+	}else if(roomLoc === 3 && pain <= 4){
+		roomLoc = 9
+		enable(true,true,true,false)
+		storyProgression()
+		painMeter()
+		if(room9_Points === 0){
+			totalPoints += 5
+			room9_Points = 1
+			targetPointTextArea.value = "total points: " + totalPoints
+		}
 	}else if(roomLoc === 6 && pain <= 4){
 		roomLoc = 3
-		enable(true,false,true,false)
+		enable(true,false,false,false)
 		storyProgression()
 		painMeter()
 	}else if(roomLoc === 4 && pain <= 4){
@@ -115,6 +143,11 @@ function myWestFunction(){
 			room4_Points = 1
 			targetPointTextArea.value = "total points: " + totalPoints
 		}
+	}else if(roomLoc === 7 && pain <= 4){
+		roomLoc = 2
+		enable(true,false,false,false)
+		storyProgression()
+		painMeter()
 	}else if(roomLoc === 0 && pain <= 4){
 		roomLoc = 5
 		enable(true,true,false,true)
@@ -138,6 +171,11 @@ function myWestFunction(){
 	}else if(roomLoc === 2 && pain <= 4){
 		roomLoc = 1
 		enable(false,false,false,false)
+		storyProgression()
+		painMeter()
+	}else if(roomLoc === 9 && pain <= 4){
+		roomLoc = 3
+		enable(true,false,false,false)
 		storyProgression()
 		painMeter()
 	}else if(pain === 5){
